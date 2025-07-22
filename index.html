@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astroneer 物品制作表</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS 变量定义，用于主题颜色和布局 */
+        :root {
+            --primary: #9973FF; /* 主色调 */
+            --primary-dark: #7A53E8; /* 主色调的深色变体 */
+            --secondary: #FF9E4F; /* 次要色调 */
+            --accent: #00D4DC; /* 强调色 */
+            --dark-bg: #121420; /* 深色背景 */
+            --card-bg: #1E1F2D; /* 卡片背景 */
+            --text-primary: #E0E0E0; /* 主要文本颜色 */
+            --text-secondary: #B0B0B0; /* 次要文本颜色 */
+            --border: #2D2F42; /* 边框颜色 */
+            --zebra-odd: #252837; /* 斑马条纹：奇数行背景 */
+            --zebra-even: #2A2D3F; /* 斑马条纹：偶数行背景 */
+            --item-col: #2F3247; /* 物品列背景 */
+            --item-col-alt: #363A50; /* 物品列交替背景 */
+            --material-bg: rgba(138, 99, 242, 0.15); /* 材料背景 */
+            --material-border: rgba(138, 99, 242, 0.3); /* 材料边框 */
+        }
+        
+        /* 全局样式重置 */
+        * {
+            box-sizing: border-box; /* 盒模型为边框盒 */
+            margin: 0; /* 外边距归零 */
+            padding: 0; /* 内边距归零 */
+        }
+        
+        /* body 基础样式 */
+        body {
+            font-family: 'Noto Sans SC', sans-serif; /* 字体设置 */
+            line-height: 1.4; /* 行高 */
+            color: var(--text-primary); /* 文本颜色 */
+            background-color: var(--dark-bg); /* 背景颜色 */
+            padding: 15px; /* 内边距 */
+        }
+        
+        /* 容器样式 */
+        .container {
+            max-width: 1800px; /* 最大宽度 */
+            margin: 0 auto; /* 居中显示 */
+        }
+        
+        /* 标题样式 */
+        h1 {
+            text-align: center; /* 文本居中 */
+            color: var(--primary); /* 颜色 */
+            margin-bottom: 20px; /* 下外边距 */
+            font-size: 1.8rem; /* 字体大小 */
+        }
+        
+        /* 表格容器样式 */
+        .tables-container {
+            flex-wrap: wrap; /* 允许换行 */
+            gap: 15px; /* 子元素之间的间距 */
+            margin-bottom: 15px; /* 下外边距 */
+        }
+        
+        /* 表格对（一组两个表格）样式 */
+        .table-pair {
+            display: flex; /* Flex布局 */
+            gap: 15px; /* 子元素之间的间距 */
+            margin: inherit; /* 继承外边距 */
+        }
+        
+        /* 精确表格（单个表格容器）样式 */
+        .exact-table {
+            background-color: var(--card-bg); /* 背景颜色 */
+            border-radius: 10px; /* 圆角 */
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3); /* 阴影效果 */
+            overflow: hidden; /* 隐藏溢出内容 */
+            border: 1px solid var(--border); /* 边框 */
+            min-width: 0; /* 最小宽度 */
+        }
+
+        /* 部分标题样式 */
+        .section-title {
+            font-size: 1.2rem; /* 字体大小 */
+            font-weight: 500; /* 字体粗细 */
+            color: var(--primary); /* 颜色 */
+            margin: 15px 0 10px; /* 外边距 */
+            padding-left: 12px; /* 左内边距 */
+            border-left: 4px solid var(--primary); /* 左边框 */
+        }
+
+        /* 表格内容容器样式 */
+        .table-container {
+            overflow-x: auto; /* X轴滚动 */
+            padding: 8px; /* 内边距 */
+            max-width: 1200px; /* 最大宽度 */
+        }
+
+        /* table 元素样式 */
+        table {
+            width: 100%; /* 宽度占满父容器 */
+            border-collapse: collapse; /* 边框合并 */
+            font-size: 12px; /* 字体大小 */
+            min-width: 750px; /* 最小宽度 */
+        }
+
+        /* 表头和单元格样式 */
+        th, td {
+            padding: 2px 8px; /* 内边距 */
+            border: 1px solid var(--border); /* 边框 */
+            text-align: left; /* 文本左对齐 */
+        }
+
+        /* 表头样式 */
+        th {
+            background-color: #2A2D3F; /* 背景颜色 */
+            color: var(--text-secondary); /* 文本颜色 */
+            font-weight: 500; /* 字体粗细 */
+            text-transform: uppercase; /* 文本大写 */
+            font-size: 11px; /* 字体大小 */
+            letter-spacing: 0.5px; /* 字符间距 */
+            text-align: center; /* 文本居中 */
+            position: sticky; /* 粘性定位 */
+            top: -9px; /* 距离顶部位置 */
+        }
+
+        /* 斑马条纹效果 */
+        tr:nth-child(odd) {
+            background-color: var(--zebra-odd); /* 奇数行背景 */
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--zebra-even); /* 偶数行背景 */
+        }
+
+        /* 奇数列样式 - 物品名称列 */
+        td:nth-child(odd) {
+            font-weight: 500; /* 字体粗细 */
+            color: var(--text-primary); /* 文本颜色 */
+            min-width: 54px; /* 最小宽度 */
+            text-align: center; /* 文本居中 */
+            background-color: var(--item-col); /* 背景颜色 */
+        }
+
+        /* 为奇数列添加交替背景色 */
+        tr:nth-child(odd) td:nth-child(odd) {
+            background-color: var(--item-col); /* 奇数行奇数列背景 */
+        }
+
+        tr:nth-child(even) td:nth-child(odd) {
+            background-color: var(--item-col-alt); /* 偶数行奇数列背景 */
+        }
+
+        /* 偶数列样式 - 材料列 */
+        td:nth-child(even) {
+            min-width: 87px; /* 最小宽度 */
+            color: var(--text-primary); /* 文本颜色 */
+        }
+
+        /* 材料标签样式 */
+        .material {
+            display: inline-block; /* 行内块元素 */
+            padding: 3px 3px; /* 内边距 */
+            background-color: var(--material-bg); /* 背景颜色 */
+            border-radius: 3px; /* 圆角 */
+            color: var(--primary); /* 文本颜色 */
+            font-size: 12px; /* 字体大小 */
+            margin: 2px 1px; /* 外边距 */
+            border: 1px solid var(--material-border); /* 边框 */
+            line-height: 1.3; /* 行高 */
+        }
+
+        /* 材料数量样式 */
+        .material-qty {
+            color: var(--secondary); /* 颜色 */
+            font-weight: 500; /* 字体粗细 */
+            margin-left: 2px; /* 左外边距 */
+            font-size: 9px; /* 字体大小 */
+        }
+
+        /* 大屏幕布局调整 */
+        @media (min-width: 1600px) {
+            body {
+                padding: 20px; /* 内边距 */
+            }
+
+            .tables-container {
+                gap: 20px; /* 间距 */
+            }
+
+            .exact-table {
+                min-width: 0px; /* 最小宽度 */
+            }
+
+            table {
+                min-width: 0; /* 最小宽度 */
+                font-size: 12px; /* 字体大小 */
+            }
+
+            th, td {
+                padding: 1px 3px; /* 内边距 */
+            }
+            .table-container {
+                max-height: 550px; /* 最大高度 */
+            }
+        }
+
+        /* 中等屏幕布局调整 */
+        @media (max-width: 1600px) {
+            .table-pair {
+                flex-direction: column; /* 垂直堆叠 */
+                max-width: 1100px; /* 最大宽度 */
+                margin: 0 auto; /* 居中 */
+            }
+            @media (max-width: 768px) {
+                .table-container {
+                    padding: 6px; /* 内边距 */
+                }
+
+                th, td {
+                    padding: 1px 6px; /* 内边距 */
+                    font-size: 9px; /* 字体大小 */
+                }
+
+                .material {
+                    font-size: 9px; /* 字体大小 */
+                }
+            }
+        }
+        /* 材料链接样式 */
+        .material-link {
+            color: var(--primary); /* 颜色 */
+            text-decoration: none; /* 无下划线 */
+            transition: color 0.2s; /* 颜色过渡效果 */
+        }
+
+        .material-link:hover {
+            color: var(--accent); /* 悬停颜色 */
+            border-bottom-color: var(--accent); /* 悬停边框颜色 */
+        }
+
+        
+        .items-link {
+            color: var(--text-primary); /* 颜色 */
+            text-decoration: none; /* 无下划线 */
+            transition: color 0.2s; /* 颜色过渡效果 */
+        }
+
+        .items-link:hover {
+            color: var(--accent); /* 悬停颜色 */
+            border-bottom-color: var(--accent); /* 悬停边框颜色 */
+        }
+
+
+
+        /* 搜索容器样式 */
+        .search-container {
+            margin: 20px auto; /* 外边距 */
+            max-width: 800px; /* 最大宽度 */
+            display: flex; /* Flex布局 */
+            gap: 10px; /* 间距 */
+            justify-content: center; /* 水平居中 */
+        }
+
+        /* 搜索输入框样式 */
+        .search-input {
+            padding: 10px 15px; /* 内边距 */
+            border: 1px solid var(--border); /* 边框 */
+            border-radius: 5px; /* 圆角 */
+            background-color: var(--card-bg); /* 背景颜色 */
+            color: var(--text-primary); /* 文本颜色 */
+            flex-grow: 1; /* 伸展 */
+            max-width: 500px; /* 最大宽度 */
+        }
+
+        /* 搜索按钮样式 */
+        .search-button {
+            padding: 10px 20px; /* 内边距 */
+            background-color: var(--primary); /* 背景颜色 */
+            color: white; /* 文本颜色 */
+            border: none; /* 无边框 */
+            border-radius: 5px; /* 圆角 */
+            cursor: pointer; /* 光标样式 */
+            transition: background-color 0.2s; /* 背景颜色过渡 */
+            font-family: inherit;
+        }
+
+        .search-button:hover {
+            background-color: var(--primary-dark); /* 悬停背景颜色 */
+        }
+
+        /* 搜索结果容器样式 */
+        .search-results {
+            margin: 20px auto; /* 外边距 */
+            max-width: 1100px; /* 最大宽度 */
+            background-color: var(--card-bg); /* 背景颜色 */
+            border-radius: 10px; /* 圆角 */
+            padding: 20px; /* 内边距 */
+            display: none; /* 默认隐藏 */
+        }
+
+        /* 搜索结果标题样式 */
+        .search-results h2 {
+            color: var(--primary); /* 颜色 */
+            margin-bottom: 15px; /* 下外边距 */
+        }
+
+        /* 无结果提示样式 */
+        .no-results {
+            color: var(--text-secondary); /* 文本颜色 */
+            text-align: center; /* 文本居中 */
+            padding: 20px; /* 内边距 */
+        }
+
+        /* 新增：搜索结果表格包装容器样式 (改为flex以便内部分类排列) */
+        .search-results .results-content {
+            display: flex; /* Flex布局 */
+            flex-wrap: wrap; /* 允许换行 */
+            gap: 15px; /* 分类表格之间的间距 */
+            justify-content: center; /* 水平居中 */
+        }
+
+        /* 新增：搜索结果中每个分类表格的容器 */
+        .search-results .printer-category-table {
+            background-color: var(--dark-bg); /* 背景色 */
+            border-radius: 8px; /* 圆角 */
+            padding: 10px; /* 内边距 */
+            flex: 1 1 calc(50% - 15px); /* 默认两列布局，减去gap */
+            max-width: 300px; /* 默认两列最大宽度 */
+            box-shadow: 0 1px 8px rgba(0,0,0,0.2); /* 轻微阴影 */
+            overflow: hidden; /* 隐藏溢出内容 */
+        }
+
+        /* 当只有一列时 冗余*/
+        .search-results .printer-category-table.col-1 {
+            flex: 1 1 100%;
+            max-width: fit-content;
+
+        }
+
+        /* 当有多列时（例如两列） */
+        @media (min-width: 700px) { /* 适当调整断点 */
+             .search-results .printer-category-table {
+                flex: 1 1 calc(25% - 15px); /* 默认4列布局 */
+/*                max-width: fit-content;*/
+            }
+        }
+        
+        /* 当结果足够多，采用三列布局 目前冗余*/
+        @media (min-width: 1200px) { /* 适当调整断点 */
+            .search-results .printer-category-table.col-3 {
+/* flex: 1 1 calc(33.333% - 15px);*/
+/* max-width: calc(33.333% - 15px);*/
+            }
+        }
+
+        /* 搜索结果中分类标题的样式 */
+        .search-results .category-title {
+            font-size: 1.1rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            padding-left: 8px;
+            border-left: 3px solid var(--secondary);
+        }
+
+        /* 搜索结果表格内部的表格样式，继承主表格样式 */
+        .search-results table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            min-width: auto; /* 搜索结果表格可以更小 */
+            table-layout:fixed;        }
+        
+        /* 搜索结果表格内部的th, td样式 */
+        .search-results th, .search-results td {
+            padding: 4px 8px; /* 适当增加内边距以提高可读性 */
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+
+        /* 搜索结果表格内部的th样式 */
+        .search-results th {
+            background-color: #2A2D3F;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            text-align: center;
+            position: sticky;
+            top: 0; /* 搜索结果表格内部的表头也吸顶 */
+        }
+        
+        /* 搜索结果表格内部的奇数列样式 - 物品名称列 */
+        .search-results td:nth-child(odd) {
+            font-weight: 500;
+            color: var(--text-primary);
+            text-align: center;
+            background-color: var(--item-col);
+        }
+
+        /* 搜索结果表格内部为奇数列添加交替背景色 */
+        .search-results tr:nth-child(odd) td:nth-child(odd) {
+            background-color: var(--item-col);
+        }
+
+        .search-results tr:nth-child(even) td:nth-child(odd) {
+            background-color: var(--item-col-alt);
+        }
+
+        /* 搜索结果表格内部的偶数列样式 - 材料列 */
+        .search-results td:nth-child(even) {
+            color: var(--text-primary);
+        }
+
+        /* 搜索结果表格内部的材料标签样式 */
+        .search-results .material {
+            display: inline-block;
+            padding: 2px 3px; /* 略微调整内边距 */
+            background-color: var(--material-bg);
+            border-radius: 3px;
+            color: var(--primary);
+            font-size: 11px; /* 略微调整字体大小 */
+            margin: 1px 1px; /* 略微调整外边距 */
+            border: 1px solid var(--material-border);
+            line-height: 1.3;
+        }
+
+        /* 搜索结果表格内部的材料数量样式 */
+        .search-results .material-qty {
+            font-size: 8px; /* 略微调整字体大小 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Astroneer 物品制作表</h1>
+        <div class="search-container">
+            <input type="text" id="materialSearch" placeholder="输入材料或物品名称搜索..." class="search-input">
+            <button id="searchButton" class="search-button">搜索</button>
+            <button id="resetButton" class="search-button">重置</button>
+        </div>
+        <div class="search-results" style="display: none;">
+            <h2>搜索结果 (<span id="resultCount">0</span> 条)</h2>
+            <div class="results-content">
+                </div>
+        </div>
+
+        <div class="tables-container">
+            <div class="table-pair">
+                <div class="exact-table" data-printer-type="背包打印机">
+                    <div class="section-title">背包打印机蓝图列表</div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>小型打印机</td>
+                                    <td><span class="material">化合物</span></td>
+                                    <td>打包机</td>
+                                    <td><span class="material">石墨</span></td>
+                                    <td>推平方块</td>
+                                    <td><span class="material">土壤</span></td>
+                                    <td>树液采集器</td>
+                                    <td><span class="material">铝</span></td>
+                                    <td>小型打印过滤器</td>
+                                    <td><span class="material">树脂</span></td>
+                                </tr>
+                                <tr>
+                                    <td>氧气桩</td>
+                                    <td><span class="material">化合物</span></td>
+                                    <td>氧气过滤</td>
+                                    <td><span class="material">树脂</span></td>
+                                    <td>氧气瓶</td>
+                                    <td><span class="material">玻璃</span></td>
+                                    <td>移动制氧机</td>
+                                    <td><span class="material">纳米碳合金</span></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>小罐</td>
+                                    <td><span class="material">树脂</span></td>
+                                    <td>信标</td>
+                                    <td><span class="material">石英</span></td>
+                                    <td>工作灯</td>
+                                    <td><span class="material">铜</span></td>
+                                    <td>荧光棒</td>
+                                    <td><span class="material">有机物</span></td>
+                                    <td>探照灯</td>
+                                    <td><span class="material">钨</span></td>
+                                </tr>
+                                <tr>
+                                    <td>小型发电机</td>
+                                    <td><span class="material">化合物</span></td>
+                                    <td>蓄电池</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>小型太阳能板</td>
+                                    <td><span class="material">铜</span></td>
+                                    <td>小型风力涡轮机</td>
+                                    <td><span class="material">玻璃</span></td>
+                                    <td>小号电池</td>
+                                    <td><span class="material">锂</span></td>
+                                </tr>
+                                <tr>
+                                    <td>加速调节器</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>宽口调节器</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>窄口调节器</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>抑制器</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>对齐调节器</td>
+                                    <td><span class="material">锌</span></td>
+                                </tr>
+                                <tr>
+                                    <td>钻取模式1</td>
+                                    <td><span class="material">陶瓷</span></td>
+                                    <td>钻取模式2</td>
+                                    <td><span class="material">钨碳化物</span></td>
+                                    <td>钻取模式3</td>
+                                    <td><span class="material">钻石</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>炸药</td>
+                                    <td><span class="material">爆炸粉末</span></td>
+                                    <td>烟花</td>
+                                    <td><span class="material">爆炸粉末</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>小型镜头</td>
+                                    <td><span class="material">EXO芯片</span></td>
+                                    <td>小型小号喇叭</td>
+                                    <td><span class="material">树脂</span></td>
+                                    <td>全息雕像</td>
+                                    <td><span class="material">塑料</span></td>
+                                    <td>地质分析仪</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>探测器扫描仪</td>
+                                    <td><span class="material">钢铁</span></td>
+                                </tr>
+                                <tr>
+                                    <td>固体燃料跳跃背包</td>
+                                    <td><span class="material">铝合金</span></td>
+                                    <td>联氨喷气式背包</td>
+                                    <td><span class="material">钛合金</span></td>
+                                    <td>悬浮滑板</td>
+                                    <td><span class="material">EXO芯片</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
+                <div class="exact-table" data-printer-type="小型打印机">
+                    <div class="section-title">小型打印机蓝图列表</div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>中型打印机</td>
+                                    <td><span class="material">化合物 <span class="material-qty">x2</span></span></td>
+                                    <td>中型破碎机</td>
+                                    <td><span class="material">铁 <span class="material-qty">x2</span></span></td>
+                                    <td>制氧机</td>
+                                    <td><span class="material">陶瓷<br>铝</span></td>
+                                    <td>区域庇护所</td>
+                                    <td><span class="material">石墨烯<br>硅</span></td>
+                                    <td>中型打印过滤器</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span></span></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>自动机械臂</td>
+                                    <td><span class="material">铝<br>石墨</span></td>
+                                    <td>中型资源罐</td>
+                                    <td><span class="material">塑料<br>玻璃</span></td>
+                                    <td>中型液体或土壤罐</td>
+                                    <td><span class="material">塑料<br>玻璃</span></td>
+                                    <td>中型汽油罐</td>
+                                    <td><span class="material">硅<br>玻璃</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>电力感应器</td>
+                                    <td><span class="material">锌<br>铜</span></td>
+                                    <td>储存感应器</td>
+                                    <td><span class="material">锌<br>石英</span></td>
+                                    <td>电池感应器</td>
+                                    <td><span class="material">锌<br>石墨</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>按钮重复器</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>临近重复器</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>延迟重复器</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td>计数重复器</td>
+                                    <td><span class="material">锌</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>电力延长器套装</td>
+                                    <td><span class="material">铜</span></td>
+                                    <td>电力开关</td>
+                                    <td><span class="material">铜</span></td>
+                                    <td>分流器</td>
+                                    <td><span class="material">铜<br>石墨</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>中型发电机</td>
+                                    <td><span class="material">铝<br>钨</span></td>
+                                    <td>中型太阳能板</td>
+                                    <td><span class="material">玻璃<br>铜</span></td>
+                                    <td>中型风力涡轮机</td>
+                                    <td><span class="material">陶瓷<br>铝</span></td>
+                                    <td>中号电池</td>
+                                    <td><span class="material">锂<br>锌</span></td>
+                                    <td>同位素热电式发电机</td>
+                                    <td><span class="material">纳米碳合金<br>锂</span></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>中型平台A</td>
+                                    <td><span class="material">树脂</span></td>
+                                    <td>中型平台B</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span></span></td>
+                                    <td>中型平台C</td>
+                                    <td><span class="material">树脂</span></td>
+                                    <td>高空平台</td>
+                                    <td><span class="material">陶瓷</span></td>
+                                    <td>中型T字平台</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span></span></td>
+                                    <td>中型二段平台</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span></span></td>
+                                </tr>
+                                <tr>
+                                    <td>中型存储</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span></span></td>
+                                    <td>中型谷粮仓</td>
+                                    <td><span class="material">钛 <span class="material-qty">x2</span></span></td>
+                                    <td>高空储存</td>
+                                    <td><span class="material">陶瓷</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>漫步车座</td>
+                                    <td><span class="material">化合物 <span class="material-qty">x2</span></span></td>
+                                    <td>牵引机</td>
+                                    <td><span class="material">铝 <span class="material-qty">x2</span></span></td>
+                                    <td>拖车</td>
+                                    <td><span class="material">铝<br>化合物</span></td>
+                                    <td>中型轿车喇叭</td>
+                                    <td><span class="material">橡胶<br>塑料</span></td>
+                                    <td>绞车</td>
+                                    <td><span class="material">EXO芯片<br>橡胶</span></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>铺路机</td>
+                                    <td><span class="material">硅<br>铝合金</span></td>
+                                    <td>钻取力度 1</td>
+                                    <td><span class="material">陶瓷<br>钨碳化物</span></td>
+                                    <td>钻取力度 2</td>
+                                    <td><span class="material">钨碳化物<br>钛合金</span></td>
+                                    <td>钻取力度 3</td>
+                                    <td><span class="material">钛合金<br>钻石</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>固体燃料推进器</td>
+                                    <td><span class="material">铵<br>铝</span></td>
+                                    <td>联氨推进器</td>
+                                    <td><span class="material">钢铁<br>EXO芯片</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>轨道柱套装</td>
+                                    <td><span class="material">树脂<br>铝</span></td>
+                                    <td>高轨道柱套装</td>
+                                    <td><span class="material">树脂<br>铝</span></td>
+                                    <td>轨道分歧器套装</td>
+                                    <td><span class="material">铝 <span class="material-qty">x2</span></span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>故障定位器</td>
+                                    <td><span class="material">太空元素<br>金属碎料</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>红玉石</td>
+                                    <td><span class="material">树脂<br>石英</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-pair">
+                <div class="exact-table" data-printer-type="中型打印机">
+                    <div class="section-title">中型打印机蓝图列表</div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>大型打印机</td>
+                                    <td><span class="material">化合物 <span class="material-qty">x3</span></span></td>
+                                    <td>熔炼炉</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span><br>化合物</span></td>
+                                    <td>土壤离心机</td>
+                                    <td><span class="material">铝<br>化合物 <span class="material-qty">x2</span></span></td>
+                                    <td>化学实验室</td>
+                                    <td><span class="material">钨<br>玻璃<br>陶瓷</span></td>
+                                    <td>大气冷凝机</td>
+                                    <td><span class="material">铁<br>玻璃<br>塑料</span></td>
+                                    <td>大型打印过滤器</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x3</span></span></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>研究仓</td>
+                                    <td><span class="material">树脂<br>化合物 <span class="material-qty">x2</span></span></td>
+                                    <td>EXO任务平台</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span><br>化合物</span></td>
+                                    <td>交易平台</td>
+                                    <td><span class="material">EXO芯片<br>钨<br>铁</span></td>
+                                    <td>大型破碎机</td>
+                                    <td><span class="material">铁<br>EXO芯片</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>大型太阳能板</td>
+                                    <td><span class="material">铝合金<br>玻璃<br>铜</span></td>
+                                    <td>大型风力涡轮机</td>
+                                    <td><span class="material">铝合金<br>玻璃<br>陶瓷</span></td>
+                                    <td>大号电池</td>
+                                    <td><span class="material">锂 <span class="material-qty">x2</span><br>锌</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>大型平台A</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span></span></td>
+                                    <td>大型平台B</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x3</span></span></td>
+                                    <td>大型平台C</td>
+                                    <td><span class="material">树脂<br>铁<br>陶瓷</span></td>
+                                    <td>大型T字平台</td>
+                                    <td><span class="material">铝 <span class="material-qty">x2</span><br>树脂</span></td>
+                                    <td>大型曲线平台</td>
+                                    <td><span class="material">陶瓷 <span class="material-qty">x2</span><br>化合物</span></td>
+                                    <td>大型二段平台</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x3</span></span></td>
+                                    <td>大型延展平台</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span></span></td>
+                                </tr>
+                                <tr>
+                                    <td>大型资源罐</td>
+                                    <td><span class="material">玻璃<br>钛<br>纳米碳合金</span></td>
+                                    <td>大型储存</td>
+                                    <td><span class="material">陶瓷 <span class="material-qty">x3</span></span></td>
+                                    <td>大型储存筒仓A</td>
+                                    <td><span class="material">铝 <span class="material-qty">x2</span><br>钢铁</span></td>
+                                    <td>大型储存筒仓B</td>
+                                    <td><span class="material">钢铁 <span class="material-qty">x3</span></span></td>
+                                    <td>大型活动存储</td>
+                                    <td><span class="material">锌<br>铝<br>树脂</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>小车车</td>
+                                    <td><span class="material">铝<br>化合物</span></td>
+                                    <td>大型漫游车座</td>
+                                    <td><span class="material">化合物<br>塑料 <span class="material-qty">x2</span></span></td>
+                                    <td>中型漫游车</td>
+                                    <td><span class="material">橡胶<br>塑料 <span class="material-qty">x2</span></span></td>
+                                    <td>VTOL</td>
+                                    <td><span class="material">EXO芯片<br>钨碳化物<br>硅</span></td>
+                                    <td>起重机</td>
+                                    <td><span class="material">钛<br>硅<br>钢铁</span></td>
+                                    <td>大型雾角喇叭</td>
+                                    <td><span class="material">钢铁<br>橡胶<br>塑料</span></td>
+                                    <td>大型漫游车座B</td>
+                                    <td><span class="material">塑料 <span class="material-qty">x2</span><br>化合物</span></td>
+                                </tr>
+                                <tr>
+                                    <td>动力车</td>
+                                    <td><span class="material">树脂<br>铝<br>铜</span></td>
+                                    <td>轨道车</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span><br>铝</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>C.O.L.E</td>
+                                    <td><span class="material">树脂<br>铝<br>铜</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>休闲球</td>
+                                    <td><span class="material">铝合金<br>橡胶</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>重力球车</td>
+                                    <td><span class="material">太空元素 <span class="material-qty">x2</span></span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="exact-table" data-printer-type="大型打印机">
+                    <div class="section-title">大型打印机蓝图列表</div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+                                    <th>物品</th>
+                                    <th>材料</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>庇护所</td>
+                                    <td><span class="material">硅 <span class="material-qty">x2</span><br>塑料 <span class="material-qty">x2</span></span></td>
+                                    <td>自动精炼器</td>
+                                    <td><span class="material">钨碳化物<br>橡胶<br>钢铁<br>EXO芯片</span></td>
+                                    <td>超大型破碎机</td>
+                                    <td><span class="material">钢铁<br>钨碳化物<br>EXO芯片 <span class="material-qty">x2</span></span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+                                <tr>
+                                    <td>太阳能电池阵</td>
+                                    <td><span class="material">石墨烯<br>铝合金<br>玻璃<br>铜</span></td>
+                                    <td>超大型风力涡轮机</td>
+                                    <td><span class="material">石墨烯<br>铝合金<br>陶瓷<br>铁</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+                                <tr>
+                                    <td>中型感应拱门</td>
+                                    <td><span class="material">锌<br>石英</span></td>
+                                    <td>超大型感应拱门</td>
+                                    <td><span class="material">锌 <span class="material-qty">x2</span><br>石英 <span class="material-qty">x2</span></span></td>
+                                    <td>超大型感应顶棚</td>
+                                    <td><span class="material">锌 <span class="material-qty">x2</span><br>石英 <span class="material-qty">x2</span></span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+                                <tr>
+                                    <td>大型感应环</td>
+                                    <td><span class="material">锌<br>石英</span></td>
+                                    <td>大型感应环A</td>
+                                    <td><span class="material">锌<br>石英 <span class="material-qty">x2</span></span></td>
+                                    <td>大型感应环B</td>
+                                    <td><span class="material">锌 <span class="material-qty">x2</span><br>石英 <span class="material-qty">x2</span></span></td>
+                                    <td>超大型感应环A</td>
+                                    <td><span class="material">锌 <span class="material-qty">x2</span><br>石英 <span class="material-qty">x2</span></span></td>
+                                    <td>超大型感应环B</td>
+                                    <td><span class="material">锌 <span class="material-qty">x3</span><br>石英</span></td>
+
+                                </tr>
+                                <tr>
+                                    <td>超大型平台A</td>
+                                    <td><span class="material">陶瓷 <span class="material-qty">x2</span><br>铁 <span class="material-qty">x2</span></span></td>
+                                    <td>超大型平台B</td>
+                                    <td><span class="material">铁 <span class="material-qty">x4</span></span></td>
+                                    <td>超大型平台C</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x2</span><br>铁 <span class="material-qty">x2</span></span></td>
+                                    <td>超大型曲线平台</td>
+                                    <td><span class="material">陶瓷 <span class="material-qty">x2</span><br>化合物 <span class="material-qty">x2</span></span></td>
+                                    <td>超大型延展平台</td>
+                                    <td><span class="material">树脂 <span class="material-qty">x3</span></span></td>
+
+                                </tr>
+                                <tr>
+                                    <td>雕像平台</td>
+                                    <td><span class="material">铁 <span class="material-qty">x4</span></span></td>
+                                    <td>超大型储存</td>
+                                    <td><span class="material">陶瓷 <span class="material-qty">x2</span><br>铁 <span class="material-qty">x2</span></span></td>
+                                    <td>超大型资源罐</td>
+                                    <td><span class="material">钻石<br>EXO芯片<br>纳米碳合金 <span class="material-qty">x2</span></span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+                                <tr>
+                                    <td>大型漫游车</td>
+                                    <td><span class="material">橡胶<br>铝合金<br>EXO芯片 <span class="material-qty">x2</span></span></td>
+                                    <td>着陆停机坪</td>
+                                    <td><span class="material">陶瓷 <span class="material-qty">x2</span><br>铝</span></td>
+                                    <td>小型航天飞机</td>
+                                    <td><span class="material">铝 <span class="material-qty">x2</span></span></td>
+                                    <td>中型航天飞机</td>
+                                    <td><span class="material">陶瓷 <span class="material-qty">x2</span><br>铝合金</span></td>
+                                    <td>大型航天飞机</td>
+                                    <td><span class="material">陶瓷<br>钛合金<br>EXO芯片 <span class="material-qty">x2</span></span></td>
+
+                                </tr>
+                                <tr>
+                                    <td>轨道站</td>
+                                    <td><span class="material">钛 <span class="material-qty">x2</span><br>铜<br>石英</span></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // =====================================================================
+        // SECTION A: INITIAL SETUP
+        // =====================================================================
+
+        // --- 1. 定义材料 & 转换超链接 ---
+        const materials = [
+            '树脂', '化合物', '铝', '玻璃', '石墨', '土壤', '铜', '钨',
+            '锂', '铁', '钛', '纳米碳合金', '陶瓷', '硅', '橡胶', '塑料',
+            '石墨烯', '钢铁', '钨碳化物', '钻石', 'EXO芯片', '太空元素',
+            '金属碎料', '石英', '有机物', '爆炸粉末', '铵', '锌',
+            '铝合金', '钛合金'
+        ];
+        materials.sort((a, b) => b.length - a.length); // Sort for correct replacement
+
+        // Create links for Materials
+        document.querySelectorAll('.tables-container td:nth-child(even)').forEach(cell => {
+            let html = cell.innerHTML;
+            materials.forEach(mat => {
+                const regex = new RegExp(`(^|>|\\s)(${escapeRegExp(mat)})(?=$|<|\\s)(?!([^<]*>)|([^>]*<\/a>))`, 'gi');
+                html = html.replace(regex, `$1<a href="https://astroneer.wiki.gg/zh/wiki/${encodeURIComponent(mat)}" target="_blank" class="material-link">$2</a>`);
+            });
+            cell.innerHTML = html;
+        });
+
+        // FIXED: Create links for all Items
+        document.querySelectorAll('.tables-container tbody tr').forEach(row => {
+            // Iterate over item cells, which are at even indices (0, 2, 4, ...)
+            for (let i = 0; i < row.cells.length; i += 2) {
+                const itemCell = row.cells[i];
+                const itemName = itemCell.textContent.trim();
+
+                // If there's an item name and it's not already a link, create one
+                if (itemName && !itemCell.querySelector('a')) {
+                    itemCell.innerHTML = `<a href="https://astroneer.wiki.gg/zh/wiki/${encodeURIComponent(itemName)}" target="_blank" class="items-link">${itemName}</a>`;
+                }
+            }
+        });
+
+        // --- 2. Get DOM Elements ---
+        const searchInput = document.getElementById('materialSearch');
+        const searchButton = document.getElementById('searchButton');
+        const resetButton = document.getElementById('resetButton');
+        const resultCountSpan = document.getElementById('resultCount');
+        const searchResultsContainer = document.querySelector('.search-results');
+        const resultsContentDiv = document.querySelector('.results-content');
+        
+        // --- 3. 高亮 Style ---
+        const style = document.createElement('style');
+        style.id = 'highlightStyle';
+        style.textContent = `
+        .highlight {
+            background-color: #ffee5566;
+            color: #fff8bb;
+            padding: 0px 1px;
+            border-radius: 3px;
+                /*! font-weight: bold; */
+        }
+        `;
+        document.head.appendChild(style);
+
+        // =====================================================================
+        // SECTION B: 高亮
+        // =====================================================================
+
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        function clearAllHighlights() {
+            const highlightedSpans = document.querySelectorAll('span.highlight');
+            highlightedSpans.forEach(span => {
+                const parent = span.parentNode;
+                if (parent) {
+                    parent.replaceChild(document.createTextNode(span.textContent), span);
+                    parent.normalize();
+                }
+            });
+        }
+
+        function highlightTextNodes(element, searchTerm) {
+            if (!searchTerm || !element) return;
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, null, false);
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                if (node.parentNode.nodeName !== 'SCRIPT' && node.parentNode.nodeName !== 'STYLE' && !node.parentNode.classList.contains('highlight')) {
+                    textNodes.push(node);
+                }
+            }
+            
+            textNodes.forEach(textNode => {
+                const lcText = textNode.nodeValue.toLowerCase();
+                if (lcText.includes(searchTerm)) {
+                    const parent = textNode.parentNode;
+                    const text = textNode.nodeValue;
+                    const regex = new RegExp(escapeRegExp(searchTerm), 'gi');
+                    const fragment = document.createDocumentFragment();
+                    let lastIndex = 0;
+                    let match;
+                    
+                    while (match = regex.exec(text)) {
+                        if (match.index > lastIndex) {
+                            fragment.appendChild(document.createTextNode(text.substring(lastIndex, match.index)));
+                        }
+                        const highlightSpan = document.createElement('span');
+                        highlightSpan.className = 'highlight';
+                        highlightSpan.textContent = match[0];
+                        fragment.appendChild(highlightSpan);
+                        lastIndex = regex.lastIndex;
+                    }
+                    
+                    if (lastIndex < text.length) {
+                        fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+                    }
+                    if (parent) parent.replaceChild(fragment, textNode);
+                }
+            });
+        }
+
+        function highlightInOriginalTables(searchTerm) {
+            const originalTableCells = document.querySelectorAll('.tables-container td');
+            originalTableCells.forEach(cell => {
+                highlightTextNodes(cell, searchTerm);
+            });
+        }
+
+
+        // =====================================================================
+        // SECTION C: 核心逻辑
+        // =====================================================================
+
+        function performSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            
+            clearAllHighlights();
+
+            if (!searchTerm) {
+                resetSearch();
+                return;
+            }
+
+            const groupedItems = { '背包打印机': [], '小型打印机': [], '中型打印机': [], '大型打印机': [] };
+            let totalResults = 0;
+
+            document.querySelectorAll('.exact-table').forEach(exactTable => {
+                const printerType = exactTable.dataset.printerType;
+                if (!printerType) return;
+
+                exactTable.querySelectorAll('tbody tr').forEach(row => {
+                    for (let i = 0; i < row.cells.length; i += 2) {
+                        const itemNameCell = row.cells[i];
+                        const materialCell = row.cells[i+1];
+                        if (!itemNameCell || !materialCell) continue;
+
+                        const itemName = itemNameCell.textContent.trim();
+                        if (!itemName) continue;
+
+                        if (itemName.toLowerCase().includes(searchTerm) || materialCell.textContent.toLowerCase().includes(searchTerm)) {
+                            groupedItems[printerType].push({
+                                name: itemName,
+                                materialsHtml: materialCell.innerHTML,
+                            });
+                            totalResults++;
+                        }
+                    }
+                });
+            });
+
+            highlightInOriginalTables(searchTerm);
+            displayGroupedResults(groupedItems, totalResults, searchTerm);
+        }
+        
+        function displayGroupedResults(groupedResults, totalResults, searchTerm) {
+            resultsContentDiv.innerHTML = '';
+            resultCountSpan.textContent = totalResults;
+
+            if (totalResults === 0) {
+                resultsContentDiv.innerHTML = `<div class="no-results">未找到包含“${searchTerm}”的物品</div>`;
+                searchResultsContainer.style.display = 'block';
+                return;
+            }
+
+            for (const printerType in groupedResults) {
+                const items = groupedResults[printerType];
+                if (items.length > 0) {
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'printer-category-table';
+                    categoryDiv.innerHTML = `<h3 class="category-title">${printerType}</h3>`;
+                    
+                    const table = document.createElement('table');
+                    table.innerHTML = `<thead><tr><th>物品名称</th><th>所需材料</th></tr></thead><tbody></tbody>`;
+                    const tbody = table.querySelector('tbody');
+                    
+                    items.forEach(item => {
+                        const row = tbody.insertRow();
+                        const nameCell = row.insertCell();
+                        const materialsCell = row.insertCell();
+                        
+                        nameCell.innerHTML = `<a href="https://astroneer.wiki.gg/zh/wiki/${encodeURIComponent(item.name)}" target="_blank" class="items-link">${item.name}</a>`;
+                        materialsCell.innerHTML = item.materialsHtml;
+                        
+                        highlightTextNodes(nameCell, searchTerm);
+                        highlightTextNodes(materialsCell, searchTerm);
+                    });
+                    
+                    categoryDiv.appendChild(table);
+                    resultsContentDiv.appendChild(categoryDiv);
+                }
+            }
+            searchResultsContainer.style.display = 'block';
+        }
+
+        function resetSearch() {
+            searchInput.value = '';
+            resultsContentDiv.innerHTML = '';
+            resultCountSpan.textContent = '0';
+            searchResultsContainer.style.display = 'none';
+            clearAllHighlights();
+        }
+
+        // =====================================================================
+        // SECTION D: 事件监听
+        // =====================================================================
+
+        searchButton.addEventListener('click', performSearch);
+        resetButton.addEventListener('click', resetSearch);
+        searchInput.addEventListener('keyup', e => {
+            if (e.key === 'Enter') performSearch();
+        });
+    });
+    </script>
+</body>
+</html>
